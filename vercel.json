@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/deepseek-api/:path*",
+      "destination": "https://api.deepseek.com/:path*"
+    }
+  ]
+}
