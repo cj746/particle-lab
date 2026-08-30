@@ -5,6 +5,10 @@ const MODELS = [
   ['deepseek-reasoner', 'R1 推理']
 ];
 
+// DeepSeek API 已开放浏览器跨域直连（实测 2026-08 返回真实状态码而非 CORS 拦截），
+// 因此无论部署在 Vercel、本地还是静态托管（如腾讯云 COS）都可直接调用，无需服务端代理。
+const API_URL = 'https://api.deepseek.com/chat/completions';
+
 const KEY_STORAGE = 'deepseek_api_key';
 
 export default function ChatTool() {
@@ -49,7 +53,7 @@ export default function ChatTool() {
     setInput('');
     setLoading(true);
     try {
-      const res = await fetch('/deepseek-api/chat/completions', {
+      const res = await fetch(API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -119,8 +123,8 @@ export default function ChatTool() {
       <p className="section__eyebrow">DEEPSEEK API</p>
       <h2 className="section__title">AI 对话</h2>
       <p className="section__desc">
-        通过本地代理调用 DeepSeek 的 chat/completions 接口（该接口不允许浏览器跨域直连，由
-        Vite 开发服务器转发）。API Key 只保存在你本机浏览器里，不会上传到别处。
+        直连调用 DeepSeek 的 chat/completions 接口。API Key 只保存在你本机浏览器里，
+        不会上传到别处。
       </p>
 
       <div className="chat__setup">
